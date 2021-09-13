@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="to_do_list.css" />
+    <script async src="to_do_list.js" type="module"></script>
+</head>
+
+<body>
+    <!-- <header class="header">Header</header> -->
+
+    <main class="content">
+        <section class="todolist">
+            
+            <header class="todolist__header">To-Do
+
+                <span id="show-task">Show Task:</span>
+                <label class="switch">
+                    
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+                    
+                </label>
+            </header>
+           
+            
+            <div class="task-overview" >
+                <h3 id="tasks-tatus"> 1 <br>Overdue</h3>
+                
+                <h3 id="tasks-tatus"> 2 <br> Due Soon</h3>
+             
+                <h3 id="tasks-tatus"> 3 <br> All </h3>
+               
+            </div>
+
+            <hr size="8" width="100%" color="orange">  
+
+
+            <ul id="todolist-content">
+                <li>
+                    <button id="check"> &#8730;</button>
+                    <span id="title">task1</span>
+                    <button id="overdue"> overdue</button>
+                    <button id="duesoon"> due soon</button>
+
+                </li>
+                <li>
+                    <button id="check"> &#8730;</button>
+                    <span>task2</span>
+                    <button id="overdue"> overdue</button>
+                    <button id="duesoon"> due soon</button>
+
+                </li>
+            </ul>
+
+
+        </section>
+    </main>
+</body>
+
+</html>
