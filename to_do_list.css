@@ -1,0 +1,211 @@
+:root {
+    --height-header: 60px;
+    --height-todolist: 500px;
+    --height-todolist-header: 30px;
+
+    --width-todolist: 350px;
+
+    --color-white: rgb(255, 255, 255);
+    --color-red-button: rgb(148, 21, 21);
+    --color-red-li-hover: rgb(207, 160, 28);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Lobster", cursive;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    height: 100%;
+    padding-top: var(--height-header);
+
+}
+
+.todolist {
+    height: var(--height-todolist);
+    width: var(--width-todolist);
+    background-color: var(--color-white);
+    border: 10px ; 
+    border-color: orange;
+    /* border-radius: 10px; */
+    border-style: solid; 
+}
+
+
+
+.todolist__header,
+/* .todolist__input, */
+ul li {
+    text-transform: capitalize;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    width: 100%;
+    height: var(--height-todolist-header);
+    line-height: var(--height-todolist-header);
+    border: none;
+    outline: none;
+    list-style: none;
+    padding: 0 10px;
+}
+
+.todolist__header {
+    padding-top: 15px;
+    font-size: 2rem;
+    text-align: left;
+}
+
+
+.switch {
+    position: absolute;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: orange;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px orange;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+}
+
+.task-overview {
+    color: black;
+    display:inline-flex;
+    padding-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+}
+
+#show-task {
+    font-size: 0.8rem; 
+    padding-left: 40px;
+}
+
+#tasks-tatus {
+    padding-right: 90px;
+}
+
+hr {
+    size: 8;
+    width: 100%;
+    color:orange;
+}
+
+ul {
+    height: calc(var(--height-todolist) - var(--height-todolist-header) * 2);
+    overflow: auto;
+    padding-top: 30px;
+}
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+}
+ul li:hover {
+    background-color: var(--color-red-li-hover);
+}
+
+
+#check{
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    border: solid;
+    color:orange;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+ul li button:hover {
+    font-size: 1.3rem;
+}
+ul li button:active {
+    font-size: 1.3rem;
+}
+ul li span {
+    width: 90%;
+    overflow: hidden;
+}
+#overdue {
+    height:30px;
+    width: 100px;
+    color:white;
+    background-color: red;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    border:solid transparent;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+#duesoon{
+    height:30px;
+    width: 100px;
+    color:white;
+    background-color: orange;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    border:solid transparent;
+}
+
