@@ -1,153 +1,98 @@
 // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~HttpRequest API
-
-
-const todoAPI = (() => {
-   
-
-    const data = {
-        id: 1,
-        title:'testtestets',
-        isTask:true,
-        isOverdue:true,
-        counter:1
+class ListItem {
+    constructor(id, title, isTask, isOverdue, counter) {
+      this.id = id;
+      this.title = title;
+      this.isTask = isTask;
+      this.isOverdue = isOverdue;
+      this.counter = counter;
     }
+  }
+  
+  const itemArr = [
+    new ListItem(1, "Campaign Tasks", true, true, 1),
+    new ListItem(2, "Learning", false, false, 14),
+    new ListItem(3, "Stories", false, false, 2),
+    new ListItem(4, "Sc Task", true, true, 1),
+    new ListItem(5, "Portal Surveys", false, false, 2),
+    new ListItem(6, "Sport", false, false, 4),
+    new ListItem(7, "Sport", true, false, 7),
+  ];
 
-   
-    const getAllTodos = () => {
-        let json = JSON.stringify(data);
-    }
+// create all task list
+function createAllListHTMLTemp(arr) {
+    let htmlTmp = "";
+    arr.forEach((ele) => {
+      htmlTmp += `<div class="row">
+          <div class="left">
+            <input type="checkbox" id="list1" name="list1" />
+            <label for="list1"> ${ele.title}</label>
+          </div>
+          <div class="right">
+            <button class="overdue-indicator"><span> ${ele.counter} Overdue</span></button>
+            <button class="duesoon-indicator"><span> ${ele.counter} Due Soon</span></button>
+          </div>
+          </div>`;
+    });
+    return htmlTmp;
+  }
 
-    const deleteTodo = id =>
-    fetch(data, { method: 'DELETE' });
 
-    const creatTodo = todoitem =>
-        fetch(data, {
-            method: 'POST',
-            body: JSON.stringify(todoitem),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then((response) => response.json());
+// create finished list
+function createPartListHTMLTemp(arr) {
+    let htmlTmp = "";
+    arr.forEach((ele) => {
+      if (ele.isTask !== true) {
+        htmlTmp += `<div class="row">
+              <div class="left">
+                <input type="checkbox" id="list1" name="list1" />
+                <label for="list1"> ${ele.title}</label>
+              </div>
+              <div class="right">
+                <button class="overdue-indicator"><span> ${ele.counter} Overdue</span></button>
+                <button class="duesoon-indicator"><span> ${ele.counter} Due Soon</span></button>
+              </div>
+              </div>`;
+      }
+    });
+    return htmlTmp;
+  }
 
-    return {
-        getAllTodos,
-        deleteTodo,
-        creatTodo
+// toggle button????
+function changeButton(arr) {
+    const buttonDueSoon = document.querySelectorAll(".duesoon-indicator");
+    const buttonOverdue = document.querySelectorAll(".overdue-indicator");
+    buttonDueSoon.forEach((ele, i) => {
+      if (arr[i].isOverdue === true) {
+        //   console.log("yes");
+        buttonOverdue[i].classList.add("display-overdue");
+        buttonDueSoon[i].classList.add("hidden");
+      } else {
+        buttonOverdue[i].classList.add("hidden");
+        buttonDueSoon[i].classList.add("display-duesoon");
+      }
+    });
+  }
 
-    };
+// render counter
+// make toggle work
+let htmlListTmp;
+const bottomEle = document.querySelector(".bottom");
 
-})();
-// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~View
+const checkbox = document.getElementById("myonoffswitch");
+htmlListTmp = createPartListHTMLTemp(itemArr);
+bottomEle.innerHTML = htmlListTmp;
 
-const View = (() => {
-    const domString = {
-        todolist: 'todolist-content',
-        deletebtn: 'delete-btn',
-    }
-    // why error in =>
-    const render = (data, document.getElementById('title')) => {
-        element.title = title;
-    }
-    // ?? creatHtmlTmp
-    const creatHtmlTmp = dataArr => {
-        let htmltmp = '';
-        dataArr.forEach(ele => {
-            htmltmp += `
-                    <li>
-                        <span>
-                            ${ele.title}
-                        </span>
-                        <button class="delete-btn" id="${ele.id}">
-                            &#8730;
-                        </button>
-                    </li>
-                `;
-        });
-        return htmltmp;
-    }
+function render(checkbox) {
+  if (checkbox.checked === true) {
+    htmlListTmp = createAllListHTMLTemp(itemArr);
+    bottomEle.innerHTML = htmlListTmp;
+    changeButton(itemArr);
+  } else {
+    htmlListTmp = createPartListHTMLTemp(itemArr);
+    bottomEle.innerHTML = htmlListTmp;
+    changeButton(itemArr);
+  }
+}
 
-    return {
-        domString,
-        render,
-        creatHtmlTmp
-    }
-})();
-// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Model
-const Model = ((api, view) => {
-    
-   class Todo {
-        constructor(title) {
-            this.title = title;
-        }
-    }
-    class State {
-        #todolist = [];
-
-        get todolist() {
-            return this.#todolist;
-        }
-
-        set todolist(dataArr) {
-            this.#todolist = dataArr;
-
-            const todolistElement = document.querySelector('#' + view.domString.todolist);
-            const htmltmp = view.creatHtmlTmp(this.#todolist);
-            view.render(todolistElement, htmltmp);
-        }
-    }
-
-    const getAllTodos = api.getAllTodos;
-    const deleteTodo = api.deleteTodo;
-    const creatTodo = api.creatTodo;
-
-    return {
-        State,
-        Todo,
-        getAllTodos,
-        deleteTodo,
-        creatTodo
-    }
-})(todoAPI, View);
-// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Controler
-const Controler = ((view, model) => {
-    const state = new model.State();
-
-    const addLisenerOnShowTask = () => {
-        const todoinput = document.querySelector('#' + view.domString.todoinput);
-        
-        todoinput.addEventListener('switch', event => {
-            if (event.key === 'switch') {
-                const todoitem = new model.Todo(event.target.value);
-
-                model.creatTodo(todoitem).then(data => {
-                    state.todolist = [data, ...state.todolist];
-                    event.target.value = '';
-                });
-            }
-        });
-    }
-
-    const addLisenerOnDelete = () => {
-        const todolistElement = document.querySelector('#' + view.domString.todolist);
-        todolistElement.addEventListener('click', (event) => {
-            state.todolist = state.todolist.filter(ele => +ele.id !== +event.target.id);
-            model.deleteTodo(event.target.id);
-        });
-    }
-
-    const init = () => {
-        model.getAllTodos().then(data => {
-            state.todolist = data;
-        });
-        addLisenerOnDelete();
-        addLisenerOnShowTask();
-    }
-
-    return {
-        init
-    }
-
-})(View, Model);
-// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Bootstrap
-Controler.init();
+changeButton(itemArr);
